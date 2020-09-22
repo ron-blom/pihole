@@ -1,0 +1,41 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  annotations:
+    helm.sh/resource-policy: "keep"
+    meta.helm.sh/release-name: "{{ $.Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ $.Release.Namespace }}"
+  name: pihole-config
+  labels:
+    app: pihole-config
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "100M"
+  storageClassName: local-path
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  annotations:
+    helm.sh/resource-policy: "keep"
+    meta.helm.sh/release-name: "{{ $.Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ $.Release.Namespace }}"
+  name: pihole-dnsmasq
+  labels:
+    app: pihole-dnsmasq
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "100M"
+  storageClassName: local-path
