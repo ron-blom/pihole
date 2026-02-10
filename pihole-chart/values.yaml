@@ -28,7 +28,10 @@ podAnnotations:
             { "name": "macvlan-110",
               "ips": [ "192.168.110.11/24" ],
               "mac": "c2:0c:c0:a8:6e:0b",
-              "gateway": [ "192.168.110.1"   ]
+              "gateway": [ "192.168.110.1" ],
+              "routes": [
+                        { "dst": "192.168.113/24", "gw": "192.168.110.1" }
+              ]
             }]'
 
 podSecurityContext: {}
@@ -48,17 +51,19 @@ service:
 
 ingress:
   enabled: true
+  className: ""
   annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: pihole.local
       paths:
-        - /
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+        - path: /
+          pathType: ImplementationSpecific
+  tls: {}
+    # - secretName: freepbx-local-tls
+    #   hosts:
+    #     - freepbx.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
